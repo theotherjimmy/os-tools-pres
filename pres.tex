@@ -1,0 +1,87 @@
+\documentclass{beamer}
+\usepackage{listings}
+\usepackage{minted}
+\usetheme{Hannover}
+\usecolortheme{fly}
+\title{Building Mbed OS}
+\author{Jimmy Brisson}
+
+\begin{document}
+\frame{\titlepage}
+\section{Build System}
+\begin{frame}
+  \frametitle{Mbed OS Build System}
+  \framesubtitle{\texttt{mbed compile}}
+  \tableofcontents[currentsection]
+\end{frame}
+\subsection{Targets}
+\begin{frame}
+  \frametitle{Targets}
+  \begin{itemize}
+  \item Defined in \texttt{mbed-os/targets/targets.json} and \texttt{custom\_targets.json}
+  \footnote{\href{https://os.mbed.com/docs/v5.6/tools/adding-and-configuring-targets.html}{File format documentation}}
+  \item Controls included code and drivers
+  \item Includes toolchain white list
+  \item Target is specified every build or configured for a project
+  \end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+  \frametitle{Example Target}
+  \framesubtitle{LPC1768}
+  \lstinputlisting[firstline=235, lastline=244, numbers=left, numbersep=2pt, breaklines=true, breakatwhitespace=true, basicstyle=\footnotesize]{targets.json}
+\end{frame}
+\subsection{Toolchains}
+\begin{frame}
+  \frametitle{Toolchains}
+  \begin{itemize}
+    \item Mbed OS supports IAR EWARM, Arm Compiler 5 and 6, and GCC arm-none-eabi 6
+    \item Flags controlled by profiles: debug, develop, release
+  \end{itemize}
+  \lstinputlisting[firstline=27, lastline=35, numbers=left, numbersep=2pt, basicstyle=\footnotesize]{develop.json}
+\end{frame}
+\subsection{Files Included}
+\begin{frame}
+  \frametitle{Scan Rules}
+  \begin{itemize}
+  \item Finds \texttt{.c}, \texttt{.cpp}, \texttt{.S} and \texttt{.h} files
+  \item Project directories scanned every build excluding:
+    \begin{itemize}
+     \item dirs starting with \texttt{TARGET\_}, \texttt{TOOLCHAIN\_} or \texttt{FEATURE\_}
+    \item any match of a line in a \texttt{.mbedignore} file
+    \end{itemize}
+  \item Labels and extra labels $\rightarrow$ \texttt{TARGET\_}
+    \begin{itemize}
+    \item \texttt{"extra\_labels\_add"} of \texttt{"NXP"} $\rightarrow$ \texttt{TARGET\_NXP}
+    \end{itemize}
+  \item Features $\rightarrow$ \texttt{FEATURE\_}
+    \begin{itemize}
+    \item \texttt{"features\_add"} of \texttt{"LWIP"} $\rightarrow$ \texttt{FEATURE\_LWIP}
+    \end{itemize}
+  \item Toolcahins $\rightarrow$ \texttt{TOOLCHAIN\_}
+    \begin{itemize}
+    \item GCC ARM $\rightarrow$ \texttt{TOOLCHAIN\_GCC\_ARM}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+\subsection{Configuration}
+\begin{frame}
+
+\end{frame}
+\section{Exporting}
+\begin{frame}
+  \frametitle{Mbed OS Export System}
+  \framesubtitle{\texttt{mbed export}}
+  \tableofcontents[currentsection]
+\end{frame}
+\section{Mbed CLI}
+\begin{frame}
+  \frametitle{Mbed CLI}
+  \begin{itemize}
+  \item \texttt{mbed} command
+  \item verbs for PM actions
+  \end{itemize}
+\end{frame}
+\subsection{Compile}
+\begin{frame}
+\end{frame}
+\end{document}
