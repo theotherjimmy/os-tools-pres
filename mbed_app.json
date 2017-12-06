@@ -1,0 +1,10 @@
+{
+    "target_overrides": {
+        "*": {
+            "drivers.uart-serial-txbuf-size": 512
+        },
+        "LPC1768": {
+            "drivers.uart-serial-rtbuf-size": 512
+        }
+    }
+}

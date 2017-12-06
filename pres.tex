@@ -8,7 +8,7 @@
 
 \begin{document}
 \frame{\titlepage}
-\section{Build System}
+\section{Building}
 \begin{frame}
   \frametitle{Mbed OS Build System}
   \framesubtitle{\texttt{mbed compile}}
@@ -46,7 +46,8 @@
   \item Finds \texttt{.c}, \texttt{.cpp}, \texttt{.S} and \texttt{.h} files
   \item Project directories scanned every build excluding:
     \begin{itemize}
-     \item dirs starting with \texttt{TARGET\_}, \texttt{TOOLCHAIN\_} or \texttt{FEATURE\_}
+    \item dirs starting with \texttt{TARGET\_}, \texttt{TOOLCHAIN\_} or \texttt{FEATURE\_}
+    \item any \texttt{TESTS} dir
     \item any match of a line in a \texttt{.mbedignore} file
     \end{itemize}
   \item Labels and extra labels $\rightarrow$ \texttt{TARGET\_}
@@ -65,23 +66,81 @@
 \end{frame}
 \subsection{Configuration}
 \begin{frame}
-
+  \frametitle{Configuration}
+  \framesubtitle{\texttt{mbed compile --config}}
+  \begin{itemize}
+  \item Compile-time parameters $\rightarrow$ CPP macros
+  \item Application $>$ Library $>$ Target
+  \item libraries cannot overwrite other libraries parameters
+  \item Library configs in many \texttt{mbed\_lib.json}
+  \item App config in \texttt{mbed\_app.json}
+  \footnote{\href{https://os.mbed.com/docs/v5.6/tools/configuring-tools.html}{examples and documentation}}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Configuration}
+  \framesubtitle{Mbed Platform Library}
+  \lstinputlisting[numbersep=2pt, numbers=left, breaklines=true, basicstyle=\footnotesize]{
+    mbed_lib.json}
+\end{frame}
+\begin{frame}
+  \frametitle{Configuration}
+  \framesubtitle{Application}
+  \lstinputlisting[numbersep=2pt, numbers=left, breaklines=true, basicstyle=\footnotesize]{
+    mbed_app.json}
+\end{frame}
+\begin{frame}
+  \frametitle{Configuration}
+  \framesubtitle{\texttt{mbed\_config.h} for LPC1768}
+  \lstinputlisting[numbersep=2pt, numbers=left, breaklines=true, basicstyle=\footnotesize, language=C]{
+    mbed_config_lpc1768.h}
+\end{frame}
+\begin{frame}
+  \frametitle{Configuration}
+  \framesubtitle{\texttt{mbed\_config.h} for K64F}
+  \lstinputlisting[numbersep=2pt, numbers=left, breaklines=true, basicstyle=\footnotesize, language=C]{
+    mbed_config_k64f.h}
 \end{frame}
 \section{Exporting}
 \begin{frame}
   \frametitle{Mbed OS Export System}
   \framesubtitle{\texttt{mbed export}}
-  \tableofcontents[currentsection]
-\end{frame}
-\section{Mbed CLI}
-\begin{frame}
-  \frametitle{Mbed CLI}
   \begin{itemize}
-  \item \texttt{mbed} command
-  \item verbs for PM actions
+  \item Resolves configuration
+  \item Finds sources
+  \item Builds an IDE project file from them
+  \item Target, Toolchain, Profile, Config specific
+  \item Leaves Mbed OS tooling behind
   \end{itemize}
 \end{frame}
-\subsection{Compile}
+\section{Testing}
 \begin{frame}
+  \frametitle{Mbed OS Test System}
+  \framesubtitle{\texttt{mbed test}}
+  \tableofcontents[currentsection]
+\end{frame}
+\subsection{Building tests}
+\begin{frame}
+  \frametitle{Building Tests}
+  \framesubtitle{\texttt{mbed test --compile}}
+  \begin{itemize}
+    \item \texttt{TESTS/$<suite>$/$<case>$}
+    \item case ``queue'' in suite ``events'' $\rightarrow$ \texttt{TESTS/events/queue}
+    \item share common Mbed OS + unity + utest + libs build
+    \item share common config
+    \item \texttt{\#error Not Supported} $\rightarrow$ Test not run
+  \end{itemize}
+\end{frame}
+\subsection{Greentea}
+\begin{frame}
+  \frametitle{Greentea Testing}
+  \framesubtitle{\texttt{mbed test --run}}
+  \begin{itemize}
+  \item Single DUT w/ Serial comm
+  \item Device announces test case and sub-cases over serial
+  \item Host may provide key, value pairs from python script
+  \item Host script determines success
+  \item Flash + reset before every test case
+  \end{itemize}
 \end{frame}
 \end{document}
